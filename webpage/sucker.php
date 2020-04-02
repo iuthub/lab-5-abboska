@@ -1,61 +1,56 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-	<head>
-		<title>Buy Your Way to a Better Education!</title>
-		<link href="style.css" type="text/css" rel="stylesheet" />
-	</head>
-	
-	<body>
-		<?php if(isset($_REQUEST["name"]) and isset($_REQUEST["section"]) and isset($_REQUEST["credit_card"]) and isset($_REQUEST["card_type"]) and $_REQUEST["name"] and $_REQUEST["section"] and $_REQUEST["credit_card"] and $_REQUEST["card_type"]){?>
+<?php
+    /**
+     * Created by PhpStorm.
+     * User: User
+     * Date: 2/28/2019
+     * Time: 05:17 PM
+     */
+?>
 
-		<h1>Buy Your Way to a Better Education!</h1>
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml">
+        <head>
+            <title>Buy Your Way to a Better Education!</title>
+            <link href="buyagrade.css" type="text/css" rel="stylesheet" />
+        </head>
 
-		<p>
-			The rough economy, along with recent changes in University of Washington policy, 
-		</p>
-		
-		<hr/>
-		<?php if (isset($_GET['save']) and $_GET['save']){
-				$txt = "{$_GET['name']};{$_GET['section']};{$_GET['credit_card']};{$_GET['card_type']}";
- 				$myfile = file_put_contents('suckers.txt', $txt.PHP_EOL , FILE_APPEND | LOCK_EX);
- 			
-			?>
+        <body>
+        <?php
+            if (isset($_POST['name'])){
 
-			<p>Name</p>
-			<?=$name=isset($_GET['name'])? $_GET["name"] : "NuN"?>
-			<p>Section</p>	
-			<?=$section= isset($_GET['section'])? $_GET["section"] : "NuN" ?>
-			<p>Credit Card</p>
-			<?=$credit_card= isset($_GET['credit_card'])? $_GET["credit_card"] : "NuN"?>
-				(<?=$card_type=isset($_GET['card_type'])? $_GET["card_type"] : "NuN"?>)
-			
-		<p>Here are all suckers who have submitted here:</p>
-		<?php 
-				$file = file_get_contents('suckers.txt');
-				echo "<pre>";
-				$lines = explode("\n", $file);
-				foreach($lines as $word) {
-	    				echo $word;
-					}
-				echo "</pre>";
-				
-			}else{?>
-			<p>Name</p>
-			<?=$name=isset($_POST['name'])? $_POST["name"] : "NuN"?>
-			<p>Section</p>	
-			<?=$section= isset($_POST['section'])? $_POST["section"] : "NuN" ?>
-			<p>Credit Card</p>
-			<?=$credit_card= isset($_POST['credit_card'])? $_POST["credit_card"] : "NuN"?>
-				(<?=$card_type=isset($_POST['card_type'])? $_POST["card_type"] : "NuN"?>)
-			
-			<a href="<?= "?name={$name}&section={$section}&credit_card={$credit_card}&card_type={$card_type}&save=true"?>">Save</a>
-			<?php }?> 
-		<?php }else{?>
-				<h1>Sorry</h1>
+            }
+        else{
+            
+            <h1>Thanks,student!</h1>
+            <hr/>
+            <h2>Your Information has been recorded</h2>
+            <dl>
+                <dt>Name</dt>
+                <dd>
+                    <?= $_POST['name'] ?>
+                </dd>
 
-		<p>
-			You didn't fill out the form completely.  <a href="<?="buyagrade.php?name={$_POST['name']}&section={$_POST['section']}&credit_card={$_POST['credit_card']}&card_type={$_POST['card_type']}"?>">Try again?</a>
-		</p>
-			<?php }?>
-	</body>
-</html>
+                <dt>Section</dt>
+                <dd>
+                    <?= $_POST['section'] ?>
+                </dd>
+
+                <dt>Credit Card</dt>
+                <dd>
+                    <?= $_POST['cardnumber'] ?>
+                    <?= $_POST['cardtype'] ?>
+                </dd>
+            </dl>
+            <?php
+        }
+    ?>
+        </body>
+    </html>
+
+<?php
+    $name =$_POST['name'];
+    $section=$_POST['section'];
+    $cardnumber=$_POST['cardnumber'];
+    $cardtype=$_POST['cardtype'];
+    $string = $name." ;".$section." ;".$cardnumber." ;".$cardtype." ;";
+    file_put_contents('sucker.txt', $string, FILE_APPEND);
